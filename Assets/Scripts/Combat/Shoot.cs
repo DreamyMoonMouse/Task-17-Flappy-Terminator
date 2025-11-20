@@ -11,7 +11,8 @@ public class Shoot : MonoBehaviour
 
     private void Update()
     {
-        if (_bulletPool == null) return;
+        if (_bulletPool == null) 
+            return;
         
         if (_isPlayer)
         {

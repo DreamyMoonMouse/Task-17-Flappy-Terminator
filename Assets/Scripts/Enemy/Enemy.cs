@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Enemy : MonoBehaviour, IInteractable
 {
-    [SerializeField] private float _lifeTime = 3f;
+    [SerializeField] private float _lifeTime = 5f;
     private float _timer;
     
     private void OnEnable()

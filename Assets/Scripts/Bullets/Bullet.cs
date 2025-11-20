@@ -43,8 +43,6 @@ public class Bullet : MonoBehaviour, IInteractable
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Bullet hit: " + other.name + ", isPlayer=" + _isPlayerBullet);
-        
         if (_isPlayerBullet)
         {
             if (other.TryGetComponent<Enemy>(out var enemy))

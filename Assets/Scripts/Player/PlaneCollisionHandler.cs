@@ -1,17 +1,19 @@
 using System;
 using UnityEngine;
-  
 
 [RequireComponent(typeof(Plane))]
 public class PlaneCollisionHandler : MonoBehaviour
 {
    public event Action<IInteractable> CollisionDetected;
-   
-   private void OnCollisionEnter2D(Collision2D collision)
+
+   private void OnValidate()
    {
-      if (collision.collider.TryGetComponent(out IInteractable interactable))
-      {
+      GetComponent<Collider2D>().isTrigger = true;
+   }
+
+   private void OnTriggerEnter2D(Collider2D other)
+   {
+      if (other.TryGetComponent(out IInteractable interactable))
          CollisionDetected?.Invoke(interactable);
-      }
    }
 }

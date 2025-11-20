@@ -4,7 +4,7 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private ObjectPool _enemyPool;
     [SerializeField] private ObjectPool _bulletPool;
-    [SerializeField] private float _spawnRate = 3f;
+    [SerializeField] private float _spawnRate = 1f;
     [SerializeField] private float _minY = -2f;
     [SerializeField] private float _maxY = 2f;
 
@@ -28,9 +28,7 @@ public class EnemySpawner : MonoBehaviour
         var shoot = enemyObj.GetComponent<Shoot>();
         
         if (shoot != null)
-        {
             shoot.SetBulletPool(_bulletPool);
-        }
     }
 }
 
