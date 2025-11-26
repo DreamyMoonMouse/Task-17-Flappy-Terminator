@@ -4,7 +4,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour, IInteractable
 {
     [SerializeField] private float _lifeTime = 5f;
+    
     private float _timer;
+    private EnemyPool _pool;
     
     private void OnEnable()
     {
@@ -16,11 +18,16 @@ public class Enemy : MonoBehaviour, IInteractable
         _timer += Time.deltaTime;
         
         if (_timer >= _lifeTime)
-            gameObject.SetActive(false);
+            Die();
+    }
+    
+    public void Init(EnemyPool pool)
+    {
+        _pool = pool;
     }
     
     public void Die()
     {
-        gameObject.SetActive(false); 
+        _pool.Return(this);
     }
 }
