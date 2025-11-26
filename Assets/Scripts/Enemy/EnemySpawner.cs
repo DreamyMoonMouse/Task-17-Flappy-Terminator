@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private ObjectPool _enemyPool;
-    [SerializeField] private ObjectPool _bulletPool;
+    [SerializeField] private EnemyPool _enemyPool;
+    [SerializeField] private BulletPool _bulletPool;
     [SerializeField] private float _spawnRate = 1f;
     [SerializeField] private float _minY = -2f;
     [SerializeField] private float _maxY = 2f;
@@ -16,19 +16,20 @@ public class EnemySpawner : MonoBehaviour
         
         if (_timer >= _spawnRate)
         {
-            SpawnEnemy();
+            Spawn();
             _timer = 0f;
         }
     }
 
-    private void SpawnEnemy()
+    private void Spawn()
     {
         Vector3 spawnPosition = new Vector3(transform.position.x, Random.Range(_minY, _maxY), 0f);
-        GameObject enemyObj = _enemyPool.Get(spawnPosition, Quaternion.identity);
-        var shoot = enemyObj.GetComponent<Shoot>();
+        Enemy enemy = _enemyPool.Get(spawnPosition, Quaternion.identity);
+        var shooter = enemy.GetComponent<Shoot>();
         
-        if (shoot != null)
-            shoot.SetBulletPool(_bulletPool);
+        if (shooter != null)
+        {
+            shooter.SetBulletPool(_bulletPool);
+        }
     }
 }
-

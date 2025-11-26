@@ -5,7 +5,7 @@ using System;
 [RequireComponent(typeof(PlaneCollisionHandler))]
 public class Plane : MonoBehaviour
 {
-    [SerializeField] private ObjectPool _bulletPool;
+    [SerializeField] private BulletPool _bulletPool;
     
     private PlayerMover _planeMover;
     private PlaneCollisionHandler _handler;

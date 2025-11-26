@@ -8,7 +8,7 @@ public class Shoot : MonoBehaviour
     [SerializeField] private bool _isPlayer = true;
 
     private float _timer;
-    private ObjectPool _bulletPool;
+    private BulletPool _bulletPool;
     private InputReader _inputReader;
 
     private void Awake()
@@ -38,33 +38,23 @@ public class Shoot : MonoBehaviour
         }
     }
     
-    public void SetBulletPool(ObjectPool pool)
+    public void SetBulletPool(BulletPool pool)
     {
         _bulletPool = pool;
     }
 
     private void FirePlayer()
     {
-        var bulletObj = _bulletPool.Get(_firePoint.position, Quaternion.identity);
-        var bullet = bulletObj.GetComponent<Bullet>();
-        
-        if (bullet != null)
-        {
-            bullet.Init(transform.right, true);
-            bulletObj.transform.right = transform.right;
-        }
+        Bullet bullet = _bulletPool.Get(_firePoint.position, Quaternion.identity);
+        bullet.Init(transform.right, true);
+        bullet.transform.right = transform.right;
     }
 
     private void FireEnemy()
     {
-        var bulletObj = _bulletPool.Get(_firePoint.position, Quaternion.identity);
-        var bullet = bulletObj.GetComponent<Bullet>();
-        
-        if (bullet != null)
-        {
-            bullet.Init(Vector2.left, false);
-            bulletObj.transform.right = Vector2.left;
-        }
+        Bullet bullet = _bulletPool.Get(_firePoint.position, Quaternion.identity);
+        bullet.Init(Vector2.left, false);
+        bullet.transform.right = Vector2.left;
     }
 }
 
