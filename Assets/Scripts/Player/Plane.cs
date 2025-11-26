@@ -1,24 +1,24 @@
 using UnityEngine;
 using System;
 
-[RequireComponent(typeof(PlaneMuvier))]
+[RequireComponent(typeof(PlayerMover))]
 [RequireComponent(typeof(PlaneCollisionHandler))]
 public class Plane : MonoBehaviour
 {
     [SerializeField] private ObjectPool _bulletPool;
     
-    private PlaneMuvier _planeMover;
+    private PlayerMover _planeMover;
     private PlaneCollisionHandler _handler;
 
-    public event Action GameOver;
+    public event Action Died;
     
     private void Awake()
     {
-        _planeMover = GetComponent<PlaneMuvier>();
+        _planeMover = GetComponent<PlayerMover>();
         _handler = GetComponent<PlaneCollisionHandler>();
     }
     
-    void Start()
+    private void Start()
     {
         GetComponent<Shoot>().SetBulletPool(_bulletPool);
     }
@@ -36,7 +36,7 @@ public class Plane : MonoBehaviour
     private void ProcessCollision(IInteractable interactable)
     {
         if (interactable is Enemy || interactable is Ground)
-            GameOver?.Invoke();
+            Died?.Invoke();
     }
 
     public void Reset()
@@ -46,6 +46,6 @@ public class Plane : MonoBehaviour
     
     public void Kill()
     {
-        GameOver?.Invoke();
+        Died?.Invoke();
     }
 }
