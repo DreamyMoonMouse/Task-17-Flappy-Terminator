@@ -16,7 +16,7 @@ public class EnemySpawner : Spawner<Enemy>
             enemy.Init(enemyPool);
         }
         
-        var shooter = enemy.GetComponent<Shoot>();
+        var shooter = enemy.GetComponent<EnemyShooter>();
         
         if (shooter != null)
         {

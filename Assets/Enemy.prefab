@@ -128,9 +128,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4762491484192198354}
   - component: {fileID: 4874448526719408019}
-  - component: {fileID: 1388401006266037311}
   - component: {fileID: 8011781213425960433}
   - component: {fileID: 6503288562854001055}
+  - component: {fileID: 6784239478717653556}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -201,21 +201,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.9189608, y: 1.9730085}
   m_EdgeRadius: 0
---- !u!114 &1388401006266037311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7066456651466144438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fdb29559ad186b43aca57faca4d72cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _firePoint: {fileID: 5389181579080071995}
-  _fireRate: 1
-  _isPlayer: 0
 --- !u!50 &8011781213425960433
 Rigidbody2D:
   serializedVersion: 5
@@ -256,3 +241,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lifeTime: 3
+--- !u!114 &6784239478717653556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7066456651466144438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d0c372188114a14a5f78d3559ed722d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _firePoint: {fileID: 5389181579080071995}
+  _fireRate: 1
