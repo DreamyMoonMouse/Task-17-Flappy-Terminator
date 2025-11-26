@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour, IInteractable
     private bool _isPlayerBullet;
     private Rigidbody2D _rb;
     private float _timer;
+    private BulletPool _pool;
 
     private void Awake()
     {
@@ -30,34 +31,42 @@ public class Bullet : MonoBehaviour, IInteractable
         _timer += Time.deltaTime;
         
         if (_timer >= _lifeTime)
-            gameObject.SetActive(false);
+            ReturnToPool();
     }
     
-    public void Init(Vector2 direction, bool isPlayerBullet)
+    public void Init(Vector2 direction, bool isPlayerBullet, BulletPool pool)
     {
         _direction = direction.normalized;
-        _isPlayerBullet = isPlayerBullet;
         _rb.linearVelocity = _direction * _speed;
         _timer = 0f;
+        _pool = pool;
+        _isPlayerBullet = isPlayerBullet;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (_isPlayerBullet)
+        if (other.TryGetComponent(out IDamageable damageable))
         {
-            if (other.TryGetComponent<Enemy>(out var enemy))
-            {
-                enemy.Die();
-                gameObject.SetActive(false);
-            }
+            if (_isPlayerBullet && other.GetComponent<Plane>() != null)
+                return;
+            
+            if (!_isPlayerBullet && other.GetComponent<Enemy>() != null)
+                return;
+            
+            damageable.Die();
+            ReturnToPool();
+        }
+    }
+    
+    private void ReturnToPool()
+    {
+        if (_pool != null)
+        {
+            _pool.Return(this);
         }
         else
         {
-            if (other.TryGetComponent<Plane>(out var plane))
-            {
-                plane.Kill();
-                gameObject.SetActive(false);
-            }
+            gameObject.SetActive(false);
         }
     }
 }

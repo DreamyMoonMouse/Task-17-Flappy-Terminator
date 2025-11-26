@@ -3,7 +3,7 @@ using System;
 
 [RequireComponent(typeof(PlayerMover))]
 [RequireComponent(typeof(PlaneCollisionHandler))]
-public class Plane : MonoBehaviour
+public class Plane : MonoBehaviour, IDamageable
 {
     [SerializeField] private BulletPool _bulletPool;
     
@@ -34,9 +34,10 @@ public class Plane : MonoBehaviour
         _planeMover.Reset();
     }
     
-    public void Kill()
+    public void Die()
     {
         Died?.Invoke();
+        gameObject.SetActive(false);
     }
     
     private void ProcessCollision(IInteractable interactable)

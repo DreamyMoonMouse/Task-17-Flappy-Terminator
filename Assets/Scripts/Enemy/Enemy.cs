@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class Enemy : MonoBehaviour, IInteractable
+public class Enemy : MonoBehaviour, IInteractable, IDamageable
 {
     [SerializeField] private float _lifeTime = 5f;
     

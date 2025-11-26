@@ -30,7 +30,7 @@ public class EnemyShooter : MonoBehaviour
     private void Fire()
     {
         Bullet bullet = _bulletPool.Get(_firePoint.position, Quaternion.identity);
-        bullet.Init(Vector2.left, false);
+        bullet.Init(Vector2.left, false, _bulletPool);
         bullet.transform.right = Vector2.left;
     }
 }
