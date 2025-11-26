@@ -16,10 +16,6 @@ public class Plane : MonoBehaviour
     {
         _planeMover = GetComponent<PlayerMover>();
         _handler = GetComponent<PlaneCollisionHandler>();
-    }
-    
-    private void Start()
-    {
         GetComponent<Shoot>().SetBulletPool(_bulletPool);
     }
 
