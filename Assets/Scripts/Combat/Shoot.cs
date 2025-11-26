@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(InputReader))]
 public class Shoot : MonoBehaviour
 {
     [SerializeField] private Transform _firePoint;
@@ -8,7 +9,13 @@ public class Shoot : MonoBehaviour
 
     private float _timer;
     private ObjectPool _bulletPool;
+    private InputReader _inputReader;
 
+    private void Awake()
+    {
+        _inputReader = GetComponent<InputReader>();
+    }
+    
     private void Update()
     {
         if (_bulletPool == null) 
@@ -16,7 +23,7 @@ public class Shoot : MonoBehaviour
         
         if (_isPlayer)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (_inputReader.IsShoot)
                 FirePlayer();
         }
         else
@@ -40,16 +47,24 @@ public class Shoot : MonoBehaviour
     {
         var bulletObj = _bulletPool.Get(_firePoint.position, Quaternion.identity);
         var bullet = bulletObj.GetComponent<Bullet>();
-        bullet.Init(transform.right, true);
-        bulletObj.transform.right = transform.right;
+        
+        if (bullet != null)
+        {
+            bullet.Init(transform.right, true);
+            bulletObj.transform.right = transform.right;
+        }
     }
 
     private void FireEnemy()
     {
         var bulletObj = _bulletPool.Get(_firePoint.position, Quaternion.identity);
         var bullet = bulletObj.GetComponent<Bullet>();
-        bullet.Init(Vector2.left, false);
-        bulletObj.transform.right = Vector2.left;
+        
+        if (bullet != null)
+        {
+            bullet.Init(Vector2.left, false);
+            bulletObj.transform.right = Vector2.left;
+        }
     }
 }
 

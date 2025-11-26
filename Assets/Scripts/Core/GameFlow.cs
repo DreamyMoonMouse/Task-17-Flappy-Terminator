@@ -25,16 +25,15 @@ public class GameFlow : MonoBehaviour
     {
         End();
     }
+    public void Restart()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 
     private void End()
     {
         Time.timeScale = 0f;
         _gameOverScreen.Show();
-    }
-
-    public void Restart()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

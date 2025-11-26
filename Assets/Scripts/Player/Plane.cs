@@ -28,12 +28,6 @@ public class Plane : MonoBehaviour
     {
         _handler.CollisionDetected -= ProcessCollision;
     }
-    
-    private void ProcessCollision(IInteractable interactable)
-    {
-        if (interactable is Enemy || interactable is Ground)
-            Died?.Invoke();
-    }
 
     public void Reset()
     {
@@ -43,5 +37,11 @@ public class Plane : MonoBehaviour
     public void Kill()
     {
         Died?.Invoke();
+    }
+    
+    private void ProcessCollision(IInteractable interactable)
+    {
+        if (interactable is Enemy || interactable is Ground)
+            Died?.Invoke();
     }
 }

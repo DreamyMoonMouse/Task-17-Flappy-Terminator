@@ -18,12 +18,6 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
-    private GameObject CreateNew()
-    {
-        var obj = Instantiate(_prefab, transform);
-        return obj;
-    }
-
     public GameObject Get(Vector3 position, Quaternion rotation)
     {
         GameObject obj;
@@ -41,6 +35,12 @@ public class ObjectPool : MonoBehaviour
         obj.transform.rotation = rotation;
         obj.SetActive(true);
         _pool.Enqueue(obj);
+        return obj;
+    }
+    
+    private GameObject CreateNew()
+    {
+        var obj = Instantiate(_prefab, transform);
         return obj;
     }
 }

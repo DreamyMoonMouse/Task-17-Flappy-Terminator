@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(InputReader))]
 public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
@@ -13,10 +14,12 @@ public class PlayerMover : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private Quaternion _maxRotation;
     private Quaternion _minRotation;
+    private InputReader _inputReader;
     
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _inputReader = GetComponent<InputReader>();
         _maxRotation = Quaternion.Euler(0, 0, _maxRotationZ);
         _minRotation = Quaternion.Euler(0, 0, _minRotationZ);
     }
@@ -28,7 +31,7 @@ public class PlayerMover : MonoBehaviour
     
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (_inputReader.IsJump)
         {
             _rigidbody2D.linearVelocity = new Vector2(_speed, _tapForce);
             transform.rotation = _maxRotation;
@@ -44,3 +47,4 @@ public class PlayerMover : MonoBehaviour
         transform.rotation = Quaternion.identity;
     }
 }
+

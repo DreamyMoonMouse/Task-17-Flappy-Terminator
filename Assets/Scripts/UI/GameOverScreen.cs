@@ -14,7 +14,7 @@ public class GameOverScreen : MonoBehaviour
         _panel.SetActive(true);
     }
 
-    public void Hide()
+    private void Hide()
     {
         _panel.SetActive(false);
     }
