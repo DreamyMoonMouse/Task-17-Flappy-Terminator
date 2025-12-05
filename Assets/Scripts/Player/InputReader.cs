@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class InputReader : MonoBehaviour
 {
+    public const KeyCode JumpKey = KeyCode.Space;
+    public const int ShootMouseButton = 0;
+    
     private bool _isJump;
     private bool _isShoot;
 
@@ -10,17 +13,17 @@ public class InputReader : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(JumpKey))
             _isJump = true;
         
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(ShootMouseButton))
             _isShoot = true;
     }
 
     private bool GetBoolAsTrigger(ref bool value)
     {
-        bool localValue = value;
+        bool wasPressed = value;
         value = false;
-        return localValue;
+        return wasPressed;
     }
 }
