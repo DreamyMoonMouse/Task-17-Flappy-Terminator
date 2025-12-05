@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Spawner<T> : MonoBehaviour where T : Component
+public abstract class Spawner<T> : MonoBehaviour where T : Component, IPoolable<T>
 {
     [SerializeField] protected ObjectPool<T> _pool;
     [SerializeField] protected float _spawnRate = 1f;

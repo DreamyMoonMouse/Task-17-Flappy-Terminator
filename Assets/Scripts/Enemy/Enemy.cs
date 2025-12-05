@@ -1,12 +1,14 @@
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(Collider2D))]
-public class Enemy : MonoBehaviour, IInteractable, IDamageable
+public class Enemy : MonoBehaviour, IInteractable, IDamageable, IPoolable<Enemy>
 {
     [SerializeField] private float _lifeTime = 5f;
     
     private float _timer;
-    private EnemyPool _pool;
+    
+    public event Action<Enemy> Deactivated;
     
     private void OnEnable()
     {
@@ -21,13 +23,8 @@ public class Enemy : MonoBehaviour, IInteractable, IDamageable
             Die();
     }
     
-    public void Init(EnemyPool pool)
-    {
-        _pool = pool;
-    }
-    
     public void Die()
     {
-        _pool.Return(this);
+        Deactivated?.Invoke(this);
     }
 }

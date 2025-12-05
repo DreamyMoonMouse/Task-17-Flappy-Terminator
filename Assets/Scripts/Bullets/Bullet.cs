@@ -1,24 +1,26 @@
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
-public class Bullet : MonoBehaviour, IInteractable
+public class Bullet : MonoBehaviour, IInteractable, IPoolable<Bullet>
 {
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _lifeTime = 6f;
 
     private Vector2 _direction;
     private bool _isPlayerBullet;
-    private Rigidbody2D _rb;
+    private Rigidbody2D _rigidbody;
     private float _timer;
-    private BulletPool _pool;
+    
+    public event Action<Bullet> Deactivated;
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _rb.gravityScale = 0f;
-        _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-        _rb.freezeRotation = true;
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _rigidbody.gravityScale = 0f;
+        _rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        _rigidbody.freezeRotation = true;
     }
     
     private void OnEnable()
@@ -31,15 +33,14 @@ public class Bullet : MonoBehaviour, IInteractable
         _timer += Time.deltaTime;
         
         if (_timer >= _lifeTime)
-            ReturnToPool();
+            Deactivate();
     }
     
-    public void Init(Vector2 direction, bool isPlayerBullet, BulletPool pool)
+    public void Init(Vector2 direction, bool isPlayerBullet)
     {
         _direction = direction.normalized;
-        _rb.linearVelocity = _direction * _speed;
+        _rigidbody.linearVelocity = _direction * _speed;
         _timer = 0f;
-        _pool = pool;
         _isPlayerBullet = isPlayerBullet;
     }
 
@@ -54,19 +55,12 @@ public class Bullet : MonoBehaviour, IInteractable
                 return;
             
             damageable.Die();
-            ReturnToPool();
+            Deactivate();
         }
     }
     
-    private void ReturnToPool()
+    private void Deactivate()
     {
-        if (_pool != null)
-        {
-            _pool.Return(this);
-        }
-        else
-        {
-            gameObject.SetActive(false);
-        }
+        Deactivated?.Invoke(this);
     }
 }

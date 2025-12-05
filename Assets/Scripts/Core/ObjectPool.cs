@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<T> : MonoBehaviour where T : Component
+public class ObjectPool<T> : MonoBehaviour where T : Component, IPoolable<T>
 {
     [SerializeField] private T _prefab;
     [SerializeField] private int _initialSize = 10;
@@ -12,7 +12,7 @@ public class ObjectPool<T> : MonoBehaviour where T : Component
     {
         for (int i = 0; i < _initialSize; i++)
         {
-            T obj = CreateNew();
+            T obj = CreateAndSubscribe();
             obj.gameObject.SetActive(false);
             _pool.Enqueue(obj);
         }
@@ -22,35 +22,42 @@ public class ObjectPool<T> : MonoBehaviour where T : Component
     {
         T obj;
         
-        if (_pool.Count > 0 && !_pool.Peek().gameObject.activeSelf)
+        if (_pool.Count > 0)
         {
             obj = _pool.Dequeue();
         }
         else
         {
-            obj = CreateNew();
+            obj = CreateAndSubscribe();
         }
 
         obj.transform.position = position;
         obj.transform.rotation = rotation;
         obj.gameObject.SetActive(true);
-        _pool.Enqueue(obj);
         
         return obj;
     }
 
-    public void Return(T obj)
-    {
-        if (obj != null)
-        {
-            obj.gameObject.SetActive(false);
-        }
-    }
-    
-    private T CreateNew()
+    private T CreateAndSubscribe()
     {
         T obj = Instantiate(_prefab, transform);
+        obj.Deactivated += OnObjectDeactivated;
         return obj;
+    }
+    
+    private void OnObjectDeactivated(T obj)
+    {
+        obj.gameObject.SetActive(false);
+        _pool.Enqueue(obj);
+    }
+    
+    private void OnDestroy()
+    {
+        foreach (T obj in _pool)
+        {
+            if (obj != null)
+                obj.Deactivated -= OnObjectDeactivated;
+        }
     }
 }
 

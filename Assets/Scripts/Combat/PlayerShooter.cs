@@ -31,8 +31,8 @@ public class PlayerShooter : MonoBehaviour
 
     private void Fire()
     {
-        Bullet bullet = _bulletPool.Get(_firePoint.position, Quaternion.identity);
-        bullet.Init(transform.right, true,_bulletPool);
+        Bullet bullet = _bulletPool.Get(_firePoint.position, Quaternion.identity);bullet.Init(transform.right, true);
+        bullet.Init(transform.right, true);
         bullet.transform.right = transform.right;
     }
 }
