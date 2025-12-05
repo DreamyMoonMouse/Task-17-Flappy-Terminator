@@ -112,6 +112,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 5
   _lifeTime: 6
+  _targetLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &7343602166240888910
 GameObject:
   m_ObjectHideFlags: 0

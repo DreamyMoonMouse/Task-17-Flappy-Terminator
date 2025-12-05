@@ -7,9 +7,9 @@ public class Bullet : MonoBehaviour, IInteractable, IPoolable<Bullet>
 {
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _lifeTime = 6f;
+    [SerializeField] private LayerMask _targetLayers = -1;
 
     private Vector2 _direction;
-    private bool _isPlayerBullet;
     private Rigidbody2D _rigidbody;
     private float _timer;
     
@@ -36,26 +36,22 @@ public class Bullet : MonoBehaviour, IInteractable, IPoolable<Bullet>
             Deactivate();
     }
     
-    public void Init(Vector2 direction, bool isPlayerBullet)
+    public void Init(Vector2 direction)
     {
         _direction = direction.normalized;
         _rigidbody.linearVelocity = _direction * _speed;
         _timer = 0f;
-        _isPlayerBullet = isPlayerBullet;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent(out IDamageable damageable))
+        if (((1 << other.gameObject.layer) & _targetLayers) != 0)
         {
-            if (_isPlayerBullet && other.GetComponent<Plane>() != null)
-                return;
-            
-            if (!_isPlayerBullet && other.GetComponent<Enemy>() != null)
-                return;
-            
-            damageable.Die();
-            Deactivate();
+            if (other.TryGetComponent(out IDamageable damageable))
+            {
+                damageable.Die();
+                Deactivate();
+            }
         }
     }
     

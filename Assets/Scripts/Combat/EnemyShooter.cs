@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyShooter : MonoBehaviour
 {
-    [SerializeField] private Transform _firePoint;
+    [SerializeField] private Transform _fireSpawnPoint;
     [SerializeField] private float _fireRate = 1f;
     
     private float _timer;
@@ -29,8 +29,8 @@ public class EnemyShooter : MonoBehaviour
 
     private void Fire()
     {
-        Bullet bullet = _bulletPool.Get(_firePoint.position, Quaternion.identity);
-        bullet.Init(Vector2.left, false);
-        bullet.transform.right = Vector2.left;
+        Bullet bullet = _bulletPool.Get(_fireSpawnPoint.position, Quaternion.identity);
+        bullet.Init(Vector2.left);
+        bullet.gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
     }
 }
